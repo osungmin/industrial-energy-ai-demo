@@ -1,48 +1,30 @@
-# Industrial Energy Intelligence Platform
+# 산업 에너지 AI 관제센터 v3
 
-특강용 **LLM + RAG + Agentic AI + 산업 에너지 관리** 데모입니다. 모든 공정 데이터는 synthetic이며, 실제 설비 제어를 수행하지 않습니다.
+한국 특강용 데모입니다. 합성 공정데이터를 사용하지만, API 키를 연결하면 LLM 응답·RAG 검색 후 종합·Agentic AI Tool Calling은 실제로 실행됩니다.
 
-## 포함 기능
-- Dark industrial operations dashboard
-- 클릭/시나리오 기반 설비 이상 시각화
-- Chiller equipment zoom + trend chart
-- 로컬 문서 기반 RAG evidence 화면
-- Agent workflow 표시
-- OpenAI API 연결 시 AI Copilot, API 없이도 deterministic demo mode
-- Chiller efficiency / compressor air leak / peak demand 시나리오
+## 주요 기능
+- 강의 모드: 기존 EMS → LLM → RAG → Agentic AI를 단계별 ON/OFF
+- 실제 운영 모드: 대시보드 + 공정 설비도 + AI Copilot
+- 공정 설비도 이상 설비 점멸
+- 한글 사내 가상문서 5종을 대상으로 실제 검색
+- OpenAI Responses API 기반 실제 LLM 호출
+- Agent가 DATA TOOL / RAG TOOL / CALCULATOR를 실제 함수 호출로 선택
 
-## 로컬 실행
-```bash
-python -m venv .venv
-# Windows: .venv\\Scripts\\activate
-# macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-streamlit run app.py
-```
+## Streamlit 업데이트
+기존 GitHub 저장소에 이 폴더 안의 파일을 같은 위치로 업로드하고 Commit 합니다. 기존 Streamlit 앱은 같은 URL에서 자동 재배포됩니다.
 
-## OpenAI API 연결(선택)
-`.streamlit/secrets.toml` 파일을 만들고 아래처럼 저장합니다. 이 파일은 `.gitignore`에 포함되어 GitHub에 올라가지 않습니다.
+## OpenAI API 연결
+Streamlit 앱의 Settings → Secrets에 다음을 입력합니다.
+
 ```toml
-OPENAI_API_KEY="YOUR_KEY_HERE"
+OPENAI_API_KEY = "발급받은_API_키"
+OPENAI_MODEL = "gpt-5.6-luna"
 ```
-API가 없어도 강의용 Demo Mode는 작동합니다.
 
-## GitHub → Streamlit Community Cloud 배포
-1. GitHub에서 새 repository 생성
-2. 이 폴더의 **내용물 전체**를 repository root에 업로드
-3. Streamlit Community Cloud에서 `Create app` → GitHub repository 선택
-4. Main file path: `app.py`
-5. Deploy
-6. OpenAI 기능을 쓸 경우 Streamlit app Settings → Secrets에 `OPENAI_API_KEY="..."` 추가
+API 키는 GitHub에 올리지 마세요. `.streamlit/secrets.toml.example`은 형식 예시일 뿐 실제 키를 넣는 파일이 아닙니다.
 
-## 추천 특강 시연 순서
-1. `Normal operation`으로 정상 공정 설명
-2. `Chiller efficiency drop` 선택
-3. Digital Factory에서 Chiller alert 확인
-4. Equipment zoom에서 전력/COP 변화 설명
-5. RAG evidence에서 기술문서 검색 과정 설명
-6. AI Copilot에서 `왜 칠러 전력 사용량이 증가했어?` 실행
-7. Agent workflow → 원인 후보 → 점검 권고 → 회피 가능 부하 연결
+## RAG 문서
+`documents/` 폴더에 모두 한글로 작성된 가상 사내자료가 들어 있습니다. 실제 현장 적용 시 이 자리에 승인된 설비 매뉴얼, SOP, 정비이력, 에너지진단 보고서 등을 연결합니다.
 
 ## 주의
-이 프로젝트는 교육/시연용 prototype입니다. 이상 원인과 절감량은 synthetic scenario에 맞춘 데모 결과이며 실제 공장의 안전·운전·정비 의사결정에 사용하면 안 됩니다.
+절감액 계산에는 교육용 가정값이 사용됩니다. 실제 제어·정비 의사결정에는 현장 검증과 안전·보안 검토가 필요합니다.
